@@ -165,6 +165,8 @@ option(WITH_SIMD "Include SIMD extensions, if available for this platform" TRUE)
 boolean_number(WITH_SIMD)
 option(WITH_TURBOJPEG "Include the TurboJPEG API library and associated test programs" TRUE)
 boolean_number(WITH_TURBOJPEG)
+option(WITH_JPEGINT_H "Dare to install jpegint.h" FALSE)
+boolean_number(WITH_JPEGINT_H)
 
 macro(report_option var desc)
   if(${var})
@@ -296,6 +298,7 @@ message(STATUS "libjpeg API shared library version = ${SO_MAJOR_VERSION}.${SO_AG
 set(TURBOJPEG_SO_MAJOR_VERSION 0)
 set(TURBOJPEG_SO_VERSION 0.2.0)
 
+report_option(WITH_JPEGINT_H "Dare to install jpegint.h")
 
 ###############################################################################
 # COMPILER SETTINGS
@@ -1490,6 +1493,12 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/jconfig.h
   ${CMAKE_CURRENT_SOURCE_DIR}/jerror.h ${CMAKE_CURRENT_SOURCE_DIR}/jmorecfg.h
   ${CMAKE_CURRENT_SOURCE_DIR}/jpeglib.h
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+
+if(WITH_JPEGINT_H)
+  install(FILES
+    ${CMAKE_CURRENT_SOURCE_DIR}/jpegint.h
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+endif()
 
 include(cmakescripts/BuildPackages.cmake)
 
